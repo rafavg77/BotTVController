@@ -5,7 +5,7 @@ Wants=network.target
 After=network.target
 
 [Service]
-ExecStart=/bin/bash /opt/bots/BotTVController/run.sh
+ExecStart=/usr/bin/python3 /opt/bots/BotTVController/src/bot.py
 Restart=on-failure
 RestartSec=10
 SyslogIdentifier=bot-tvcontroller
