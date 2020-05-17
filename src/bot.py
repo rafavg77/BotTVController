@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import re
 import os
 import logging
 from catt.api import CattDevice
@@ -8,6 +9,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 BOT_TEL_KEY=os.environ['BOT_TEL_KEY']
 BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
+CAST_DEVICE="TV Recamara"
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -26,8 +28,9 @@ def help(update, context):
 
 def cast(update, context):
 	update.message.reply_text('Enviando video')
-	cast = CattDevice(name="TV Recamara")
-	VIDEOS = [ "https://www.youtube.com/watch?v=nUwEVoLB-tA" ]
+	cast = CattDevice(name=CAST_DEVICE)
+	VIDEOS = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', update.message.text)
+	logger.info(VIDEOS)
 	for video in VIDEOS:
 		 cast.play_url(video, resolve=True, block=True)
 	update.message.reply_text('Video enviado')
