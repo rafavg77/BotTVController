@@ -1,0 +1,15 @@
+[Unit]
+Description=Bot de Telegram para enviar videos al chromecast
+
+Wants=network.target
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/bots/BotTVController/src/bot.py
+Restart=on-failure
+RestartSec=10
+SyslogIdentifier=bot-tvcontroller
+User=pi
+
+[Install]
+WantedBy=multi-user.target
