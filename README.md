@@ -8,7 +8,8 @@ Bot de Telegram para enviar videos de Youtube y Facebook a un Chromecast
 4. Configurar Bot como Servicio
 5. Configurar Ngrok como Servicio
 6. Ejecutar Bot
- 
+
+```bash 
 sudo apt update
 sudo apt upgrade
 sudo apt install python3 python3-pip python3-venv git
@@ -22,3 +23,5 @@ cd BotTVController
 sudo python3 -m venv BotTvController
 source BotTvController/bin/activate
 pip3 install -U -r requirements.txt
+python3.7 src/bot.py
+```
