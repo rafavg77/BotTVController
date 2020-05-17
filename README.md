@@ -22,6 +22,8 @@ sudo git clone https://github.com/rafavg77/BotTVController.git
 cd BotTVController
 sudo python3 -m venv BotTvController
 source BotTvController/bin/activate
-pip3 install -U -r requirements.txt
-python3.7 src/bot.py
+sudo pip3 install -U -r requirements.txt
+sudo chmod +x run.sh
+./run.sh
+sudo cp /opt/bots/BotTVController/services/bot-tvcontroller.service /lib/systemd/system/
 ```
