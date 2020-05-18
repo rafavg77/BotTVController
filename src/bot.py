@@ -29,10 +29,7 @@ def start(update, context):
     logger.info("Command /start from %s" % (username))
 
 def help(update, context):
-    p = subprocess.Popen("grep CommandHandler /opt/bots/BotTVController/src/bot.py | cut -d '\"' -f2", stdout=subprocess.PIPE, shell=True)
-    (output, err) = p.communicate()
-    print(output)
-    update.message.reply_text(output)
+    update.message.reply_text("Los comandos disponibles son: \n /start \n /help \n /cast \n /pause \n /tunnelStatus \n /tunnelUp \n /tunnelDown")
 
 def cast(update, context):
 	update.message.reply_text('Enviando video')
