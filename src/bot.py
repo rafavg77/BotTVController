@@ -29,9 +29,10 @@ def start(update, context):
     logger.info("Command /start from %s" % (username))
 
 def help(update, context):
-    username = update.message.chat.username
-    update.message.reply_text('Este el comando de ayuda')
-    logger.info("Command /help from %s" % (username))
+    p = subprocess.Popen("grep CommandHandler /opt/bots/BotTVController/src/bot.py | cut -d '\"' -f2", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    print(output)
+    update.message.reply_text(output)
 
 def cast(update, context):
 	update.message.reply_text('Enviando video')
