@@ -18,7 +18,7 @@ parser.read('config/auth')
 
 #BOT_TEL_KEY=parser.get('API_KEYS','BOT_TEL_KEY')
 BOT_TEL_KEY=os.environ['BOT_TEL_KEY']
-BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
+#BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
 CAST_DEVICE="TV Recamara"
 CHAT_ID="32268671"
 
