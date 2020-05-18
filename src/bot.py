@@ -8,15 +8,18 @@ import requests
 import schedule
 import time
 import subprocess
+from configparser import ConfigParser
 from threading import Timer 
 from catt.api import CattDevice
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-BOT_TEL_KEY=os.environ['BOT_TEL_KEY']
-BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
+parser = ConfigParser()
+parser.read('config/auth')
+
+BOT_TEL_KEY=parser.get('API_KEYS','BOT_TEL_KEY')
+#BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
 CAST_DEVICE="TV Recamara"
 CHAT_ID="32268671"
-
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 

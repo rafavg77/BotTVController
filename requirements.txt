@@ -2,3 +2,4 @@ python-telegram-bot
 catt
 schedule
 requests
+configparser
