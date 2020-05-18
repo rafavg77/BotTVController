@@ -12,16 +12,15 @@ from threading import Timer
 from catt.api import CattDevice
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-parser = ConfigParser()
-parser.read('config/auth')
 
+#Definición de contstantes
 BOT_TEL_KEY=os.environ['BOT_TEL_KEY']
-#BOT_NGR_KEY=os.environ['BOT_NGR_KEY']
 CAST_DEVICE="TV Recamara"
 CHAT_ID="32268671"
+URL_TUNNEL="http://localhost:4040/api/tunnels"
 
+#Configuración para loggeo 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
 def start(update, context):
@@ -47,6 +46,32 @@ def pause(update, context):
 	cast = CattDevice(name=CAST_DEVICE)
 	cast.pause()
 	update.message.reply_text('Comando Pause enviado')
+
+def tunnelStatus(update, context):
+    logger.info('He recibido un comando Status')
+    r = requests.get(URL_TUNNEL, json={"key": "value"})
+    if r.status_code == 200:
+        response = r.json()
+        botAnswer = response['tunnels'][0]['public_url']
+        logger.info(botAnswer)
+    elif r.status_code == 404:
+        loger.error('Not Found.')
+        botAnswer = "No se puede consultar el estatus del puerto"
+    update.message.reply_text(botAnswer)
+
+def tunnelUp(update, context):
+    logger.info('He recibido un comando UP')
+    p = subprocess.Popen("sudo service ngrok start", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    logger.info("Command output : ", output)
+    update.message.reply_text("Encendiedo servicio de ngrok ")
+    
+def tunnelDown(update, context):
+    logger.info('He recibido un comando DOWN')
+    p = subprocess.Popen("sudo service ngrok stop", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    logger.info("Command output : ", output)
+    update.message.reply_text("Apagando servicio de ngrok")
 
 def status():
 	sendMessage("Sigo Vivo")
@@ -84,7 +109,9 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("cast", cast))
     dp.add_handler(CommandHandler("pause", pause))
-   
+    dp.add_handler(CommandHandler("tunnelStatus", tunnelStatus))
+    dp.add_handler(CommandHandler("tunnelUp", tunnelUp))
+    dp.add_handler(CommandHandler("tunnelDown", tunnelDown))
     dp.add_error_handler(error)
 
     updater.start_polling()
