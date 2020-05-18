@@ -1,15 +1,15 @@
 [Unit]
-Description=Bot de Telegram para enviar videos al chromecast
-
-Wants=network.target
+Description=ngrok service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 /opt/bots/BotTVController/src/bot.py
-Restart=on-failure
-RestartSec=10
-SyslogIdentifier=bot-tvcontroller
-User=pi
+ExecStart=/opt/ngrok/ngrok start --all --config /home/pi/.ngrok2/ngrok.yml
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+IgnoreSIGPIPE=true
+Restart=always
+RestartSec=3
+Type=simple
 
 [Install]
 WantedBy=multi-user.target
